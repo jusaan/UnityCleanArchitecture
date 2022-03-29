@@ -1,6 +1,7 @@
 using UnityExercises.Entities.Services.EventDispatcher;
 using UnityExercises.InterfaceAdapters.Screens.Inventory;
 using UnityExercises.InterfaceAdapters.Screens.MainMenu;
+using UnityExercises.InterfaceAdapters.Screens.ScreenNavigator;
 using UnityExercises.InterfaceAdapters.Screens.Shop;
 using UnityExercises.UseCases.Screens;
 using Zenject;
@@ -13,6 +14,9 @@ namespace UnityExercises.Configuration.Installers
         {
             Container.Bind<IEventDispatcherService>()
                 .To<EventDispatcherService>()
+                .AsSingle();
+
+            Container.Bind<ScreenNavigatorViewModel>()
                 .AsSingle();
 
             InjectMainMenu();

@@ -1,9 +1,10 @@
+using UnityExercises.Entities.Screens.Shop;
 using UnityExercises.Entities.Services.EventDispatcher;
 using UnityExercises.Entities.UseCases.Screens;
 
 namespace UnityExercises.UseCases.Screens
 {
-    public class ShopUseCase : IShopUseCase
+    public class ShopUseCase : IShop
     {
         private readonly IEventDispatcherService _eventDispatcherService;
 
@@ -12,14 +13,9 @@ namespace UnityExercises.UseCases.Screens
             _eventDispatcherService = eventDispatcherService;
         }
 
-        public void BackToPreviousScreen()
+        public void SetActive(bool active)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetAsActualScreen()
-        {
-            throw new System.NotImplementedException();
+            _eventDispatcherService.Dispatch(new ShopVisibility(active));
         }
     }
 }

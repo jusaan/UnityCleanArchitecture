@@ -17,9 +17,9 @@ namespace UnityExercises.Views.Screens
 
         private void Awake()
         {
-            _shopViewModel.OnBackButtonPressed.BindTo(_backButton);
-            _inventoryViewModel.OnGoToButtonPressed.BindTo(_inventoryButton);
-            _shopViewModel.IsVisible.Subscribe(gameObject.SetActive);
+            _shopViewModel.OnBackButtonPressed.BindTo(_backButton).AddTo(_disposables);
+            _inventoryViewModel.OnGoToButtonPressed.BindTo(_inventoryButton).AddTo(_disposables);
+            _shopViewModel.IsVisible.Subscribe(gameObject.SetActive).AddTo(_disposables);
         }
     }
 }

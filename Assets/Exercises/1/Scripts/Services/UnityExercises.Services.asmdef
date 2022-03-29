@@ -1,0 +1,18 @@
+{
+    "name": "UnityExercises.Services",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d379d6c7a51df514d971555c333152e8",
+        "GUID:559197b466588d44fb8cb74ad89e07a4",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
