@@ -8,14 +8,14 @@ namespace UnityExercises.Views.Screens
 {
     public class InventoryView : ViewBase
     {
-        [Inject] private readonly InventoryViewModel InventoryViewModel;
+        [Inject] private readonly InventoryViewModel _inventoryViewModel;
 
         [SerializeField] private Button _backButton;
 
         private void Awake()
         {
-            InventoryViewModel.OnBackButtonPressed.BindTo(_backButton);
-            InventoryViewModel.IsVisible.Subscribe(gameObject.SetActive);
+            _inventoryViewModel.OnBackButtonPressed.BindTo(_backButton);
+            _inventoryViewModel.IsVisible.Subscribe(gameObject.SetActive);
         }
     }
 }
