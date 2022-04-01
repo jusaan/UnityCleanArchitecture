@@ -16,32 +16,29 @@ namespace UnityExercises.Views.Tests.Screens
     [TestFixture]
     public class MainMenuViewTest : ZenjectUnitTestFixture
     {
-        [Inject] private readonly MainMenuViewModel _mainMenuViewModel;
-        [Inject] private readonly ShopViewModel _shopViewModel;
-        [Inject] private readonly InventoryViewModel _inventoryViewModel;
+        [Inject] private readonly MainMenuView _mainMenuView;
 
-        private GameObject _mainMenu;
-        private MainMenuView _mainMenuView;
+        private MainMenuViewModel _mainMenuViewModel;
+        private ShopViewModel _shopViewModel;
+        private InventoryViewModel _inventoryViewModel;
         private Button _shopButton;
         private Button _inventoryButton;
 
         [SetUp]
         public void SetUp()
         {
-            Container.Bind<MainMenuViewModel>().AsSingle();
-            Container.Bind<ShopViewModel>().AsSingle();
-            Container.Bind<InventoryViewModel>().AsSingle();
+            _mainMenuViewModel = new MainMenuViewModel();
+            _shopViewModel = new ShopViewModel();
+            _inventoryViewModel = new InventoryViewModel();
+            Container.Bind<MainMenuView>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .WithArguments(_mainMenuViewModel, _shopViewModel, _inventoryViewModel);
+
             Container.Inject(this);
 
-            _mainMenu = new GameObject();
-            _mainMenuView = _mainMenu.AddComponent<MainMenuView>();
             _shopButton = new GameObject().AddComponent<Button>();
             _inventoryButton = new GameObject().AddComponent<Button>();
-
-            ReflectionHelper.SetInstanceField(_mainMenuView, "_mainMenuViewModel", _mainMenuViewModel);
-            ReflectionHelper.SetInstanceField(_mainMenuView, "_shopViewModel", _shopViewModel);
-            ReflectionHelper.SetInstanceField(_mainMenuView, "_inventoryViewModel", _inventoryViewModel);
-
             ReflectionHelper.SetInstanceField(_mainMenuView, "_shopButton", _shopButton);
             ReflectionHelper.SetInstanceField(_mainMenuView, "_inventoryButton", _inventoryButton);
 
@@ -73,11 +70,11 @@ namespace UnityExercises.Views.Tests.Screens
         [TestCase(false)]
         public void WhenUpdateVisibilityOnTheViewModel_ShowOrHideTheGameObject(bool expectedValue)
         {
-            _mainMenu.SetActive(!expectedValue);
-            Assert.AreEqual(!expectedValue, _mainMenu.activeSelf);
+            _mainMenuView.gameObject.SetActive(!expectedValue);
+            Assert.AreEqual(!expectedValue, _mainMenuView.gameObject.activeSelf);
             _mainMenuViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
 
-            Assert.AreEqual(expectedValue, _mainMenu.activeSelf);
+            Assert.AreEqual(expectedValue, _mainMenuView.gameObject.activeSelf);
         }
     }
 }

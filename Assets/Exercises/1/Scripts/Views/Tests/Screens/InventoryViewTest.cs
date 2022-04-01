@@ -14,24 +14,23 @@ namespace UnityExercises.Views.Tests.Screens
     [TestFixture]
     public class InventoryViewTest : ZenjectUnitTestFixture
     {
-        [Inject] private readonly InventoryViewModel _inventoryViewModel;
+        [Inject] private readonly InventoryView _inventoryView;
 
-        private GameObject _inventory;
-        private InventoryView _inventoryView;
+        private InventoryViewModel _inventoryViewModel;
         private Button _backButton;
 
         [SetUp]
         public void SetUp()
         {
-            Container.Bind<InventoryViewModel>().AsSingle();
+            _inventoryViewModel = new InventoryViewModel();
+            Container.Bind<InventoryView>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .WithArguments(_inventoryViewModel);
+
             Container.Inject(this);
 
-            _inventory = new GameObject();
-            _inventoryView = _inventory.AddComponent<InventoryView>();
             _backButton = new GameObject().AddComponent<Button>();
-
-            ReflectionHelper.SetInstanceField(_inventoryView, "_inventoryViewModel", _inventoryViewModel);
-
             ReflectionHelper.SetInstanceField(_inventoryView, "_backButton", _backButton);
 
             ReflectionHelper.InvokeInstanceMethod(_inventoryView, "Awake");
@@ -51,11 +50,11 @@ namespace UnityExercises.Views.Tests.Screens
         [TestCase(false)]
         public void WhenUpdateVisibilityOnTheViewModel_ShowOrHideTheGameObject(bool expectedValue)
         {
-            _inventory.SetActive(!expectedValue);
-            Assert.AreEqual(!expectedValue, _inventory.activeSelf);
+            _inventoryView.gameObject.SetActive(!expectedValue);
+            Assert.AreEqual(!expectedValue, _inventoryView.gameObject.activeSelf);
             _inventoryViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
 
-            Assert.AreEqual(expectedValue, _inventory.activeSelf);
+            Assert.AreEqual(expectedValue, _inventoryView.gameObject.activeSelf);
         }
     }
 }

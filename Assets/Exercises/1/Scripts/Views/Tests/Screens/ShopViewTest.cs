@@ -15,29 +15,27 @@ namespace UnityExercises.Views.Tests.Screens
     [TestFixture]
     public class ShopViewTest : ZenjectUnitTestFixture
     {
-        [Inject] private readonly ShopViewModel _shopViewModel;
-        [Inject] private readonly InventoryViewModel _inventoryViewModel;
+        [Inject] private readonly ShopView _shopView;
 
-        private GameObject _shop;
-        private ShopView _shopView;
+        private ShopViewModel _shopViewModel;
+        private InventoryViewModel _inventoryViewModel;
         private Button _backButton;
         private Button _inventoryButton;
 
         [SetUp]
         public void SetUp()
         {
-            Container.Bind<ShopViewModel>().AsSingle();
-            Container.Bind<InventoryViewModel>().AsSingle();
+            _shopViewModel = new ShopViewModel();
+            _inventoryViewModel = new InventoryViewModel();
+            Container.Bind<ShopView>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .WithArguments(_shopViewModel, _inventoryViewModel);
+
             Container.Inject(this);
 
-            _shop = new GameObject();
-            _shopView = _shop.AddComponent<ShopView>();
             _backButton = new GameObject().AddComponent<Button>();
             _inventoryButton = new GameObject().AddComponent<Button>();
-
-            ReflectionHelper.SetInstanceField(_shopView, "_shopViewModel", _shopViewModel);
-            ReflectionHelper.SetInstanceField(_shopView, "_inventoryViewModel", _inventoryViewModel);
-
             ReflectionHelper.SetInstanceField(_shopView, "_backButton", _backButton);
             ReflectionHelper.SetInstanceField(_shopView, "_inventoryButton", _inventoryButton);
 
@@ -68,11 +66,11 @@ namespace UnityExercises.Views.Tests.Screens
         [TestCase(false)]
         public void WhenUpdateVisibilityOnTheViewModel_ShowOrHideTheGameObject(bool expectedValue)
         {
-            _shop.SetActive(!expectedValue);
-            Assert.AreEqual(!expectedValue, _shop.activeSelf);
+            _shopView.gameObject.SetActive(!expectedValue);
+            Assert.AreEqual(!expectedValue, _shopView.gameObject.activeSelf);
             _shopViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
 
-            Assert.AreEqual(expectedValue, _shop.activeSelf);
+            Assert.AreEqual(expectedValue, _shopView.gameObject.activeSelf);
         }
     }
 }

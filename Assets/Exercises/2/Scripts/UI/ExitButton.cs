@@ -1,5 +1,5 @@
 using UnityEngine;
-using VSCodeEditor;
+//using VSCodeEditor;
 
 namespace DefaultNamespace
 {
