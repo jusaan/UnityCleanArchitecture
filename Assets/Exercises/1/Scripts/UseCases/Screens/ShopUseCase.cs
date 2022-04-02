@@ -1,6 +1,5 @@
 using UnityExercises.Entities.Screens.Shop;
-using UnityExercises.Entities.Services.EventDispatcher;
-using UnityExercises.Entities.UseCases.Screens;
+using UnityExercises.Utilities.Events;
 
 namespace UnityExercises.UseCases.Screens
 {

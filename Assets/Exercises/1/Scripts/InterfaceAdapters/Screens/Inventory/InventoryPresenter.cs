@@ -1,6 +1,6 @@
 using System;
 using UnityExercises.Entities.Screens.Inventory;
-using UnityExercises.Entities.Services.EventDispatcher;
+using UnityExercises.Utilities.Events;
 
 namespace UnityExercises.InterfaceAdapters.Screens.Inventory
 {

@@ -1,4 +1,4 @@
-namespace UnityExercises.Entities.Utilities
+namespace UnityExercises.Utilities.Interactables
 {
     public interface IActivable
     {

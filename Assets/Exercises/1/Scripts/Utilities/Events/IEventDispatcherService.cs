@@ -1,6 +1,6 @@
 using System;
 
-namespace UnityExercises.Entities.Services.EventDispatcher
+namespace UnityExercises.Utilities.Events
 {
     public interface IEventDispatcherService
     {

@@ -7,8 +7,8 @@ using UnityEngine.UI;
 using UnityExercises.InterfaceAdapters.Screens.Inventory;
 using UnityExercises.InterfaceAdapters.Screens.MainMenu;
 using UnityExercises.InterfaceAdapters.Screens.Shop;
+using UnityExercises.Utilities.Helpers;
 using UnityExercises.Views.Screens;
-using UnityExercises.Views.Tests.Utilities;
 using Zenject;
 
 namespace UnityExercises.Views.Tests.Screens

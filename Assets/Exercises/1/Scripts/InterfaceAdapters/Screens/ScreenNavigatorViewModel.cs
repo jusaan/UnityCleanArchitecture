@@ -1,7 +1,7 @@
 using UniRx;
-using UnityExercises.Entities.Utilities;
+using UnityExercises.Utilities.Interactables;
 
-namespace UnityExercises.InterfaceAdapters.Screens.ScreenNavigator
+namespace UnityExercises.InterfaceAdapters.Screens
 {
     public class ScreenNavigatorViewModel
     {

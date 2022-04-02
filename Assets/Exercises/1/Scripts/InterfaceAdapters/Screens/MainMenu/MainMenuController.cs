@@ -1,9 +1,6 @@
-using UnityExercises.Entities.UseCases.Screens;
-using UnityExercises.Entities.Utilities;
 using UniRx;
-using System;
-using UnityExercises.InterfaceAdapters.Screens.ScreenNavigator;
-using UnityEngine;
+using UnityExercises.Entities.Screens.MainMenu;
+using UnityExercises.Utilities.Helpers;
 
 namespace UnityExercises.InterfaceAdapters.Screens.MainMenu
 {

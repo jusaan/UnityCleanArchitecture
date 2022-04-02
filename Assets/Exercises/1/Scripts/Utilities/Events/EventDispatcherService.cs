@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UnityExercises.Entities.Services.EventDispatcher
+namespace UnityExercises.Utilities.Events
 {
     public class EventDispatcherService : IEventDispatcherService
     {

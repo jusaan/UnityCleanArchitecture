@@ -1,7 +1,6 @@
 using UniRx;
-using UnityExercises.Entities.UseCases.Screens;
-using UnityExercises.Entities.Utilities;
-using UnityExercises.InterfaceAdapters.Screens.ScreenNavigator;
+using UnityExercises.Entities.Screens.Shop;
+using UnityExercises.Utilities.Helpers;
 
 namespace UnityExercises.InterfaceAdapters.Screens.Shop
 {

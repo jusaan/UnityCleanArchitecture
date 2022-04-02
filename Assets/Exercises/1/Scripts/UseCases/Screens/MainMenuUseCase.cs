@@ -1,7 +1,6 @@
 using System;
 using UnityExercises.Entities.Screens.MainMenu;
-using UnityExercises.Entities.Services.EventDispatcher;
-using UnityExercises.Entities.UseCases.Screens;
+using UnityExercises.Utilities.Events;
 
 namespace UnityExercises.UseCases.Screens
 {

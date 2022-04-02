@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace UnityExercises.Entities.Utilities
+namespace UnityExercises.Utilities.Helpers
 {
-    public abstract class DisposableBase : IDisposable
+    public class ViewBase : MonoBehaviour
     {
         protected readonly List<IDisposable> _disposables = new List<IDisposable>();
 
-        public virtual void Dispose()
+        protected virtual void OnDestroy()
         {
             foreach (var disposable in _disposables)
             {

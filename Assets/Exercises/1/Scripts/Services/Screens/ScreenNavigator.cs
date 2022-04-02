@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
-using UnityExercises.Entities.Utilities;
-using UnityExercises.InterfaceAdapters.Screens.ScreenNavigator;
+using UnityExercises.InterfaceAdapters.Screens;
+using UnityExercises.Utilities.Interactables;
 using Zenject;
 
 namespace UnityExercises.Services.Screens

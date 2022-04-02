@@ -2,6 +2,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityExercises.InterfaceAdapters.Screens.Inventory;
+using UnityExercises.Utilities.Helpers;
 using Zenject;
 
 namespace UnityExercises.Views.Screens
