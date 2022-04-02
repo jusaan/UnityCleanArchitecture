@@ -6,25 +6,25 @@ namespace UnityExercises.InterfaceAdapters.Screens.Inventory
 {
     public class InventoryController : DisposableBase
     {
-        private readonly IInventory _inventoryUseCase;
+        private readonly IInventory _inventory;
         private readonly InventoryViewModel _inventoryViewModel;
         private readonly ScreenNavigatorViewModel _screenNavigatorViewModel;
 
-        public InventoryController(IInventory inventoryUseCase,
+        public InventoryController(IInventory inventory,
                             InventoryViewModel inventoryViewModel,
                             ScreenNavigatorViewModel screenNavigatorViewModel)
         {
-            _inventoryUseCase = inventoryUseCase;
+            _inventory = inventory;
             _inventoryViewModel = inventoryViewModel;
             _screenNavigatorViewModel = screenNavigatorViewModel;
 
-            _inventoryViewModel.OnGoToButtonPressed.Subscribe(SetAsActualScreen).AddTo(_disposables);
+            _inventoryViewModel.OnGoToButtonPressed.Subscribe(SetActualScreen).AddTo(_disposables);
             _inventoryViewModel.OnBackButtonPressed.Subscribe(BackToPreviousScreen).AddTo(_disposables);
         }
 
-        private void SetAsActualScreen(Unit _)
+        private void SetActualScreen(Unit _)
         {
-            _screenNavigatorViewModel.SetActualScreen.Execute(_inventoryUseCase);
+            _screenNavigatorViewModel.SetActualScreen.Execute(_inventory);
         }
 
         private void BackToPreviousScreen(Unit _)

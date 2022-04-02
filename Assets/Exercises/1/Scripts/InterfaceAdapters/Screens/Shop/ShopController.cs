@@ -6,25 +6,25 @@ namespace UnityExercises.InterfaceAdapters.Screens.Shop
 {
     public class ShopController : DisposableBase
     {
-        private readonly IShop _shopUseCase;
+        private readonly IShop _shop;
         private readonly ShopViewModel _shopViewModel;
         private readonly ScreenNavigatorViewModel _screenNavigatorViewModel;
 
-        public ShopController(IShop shopUseCase, 
+        public ShopController(IShop shop, 
                             ShopViewModel shopViewModel,
                             ScreenNavigatorViewModel screenNavigatorViewModel)
         {
-            _shopUseCase = shopUseCase;
+            _shop = shop;
             _shopViewModel = shopViewModel;
             _screenNavigatorViewModel = screenNavigatorViewModel;
 
-            _shopViewModel.OnGoToButtonPressed.Subscribe(SetAsActualScreen).AddTo(_disposables);
+            _shopViewModel.OnGoToButtonPressed.Subscribe(SetActualScreen).AddTo(_disposables);
             _shopViewModel.OnBackButtonPressed.Subscribe(BackToPreviousScreen).AddTo(_disposables);
         }
 
-        private void SetAsActualScreen(Unit _)
+        private void SetActualScreen(Unit _)
         {
-            _screenNavigatorViewModel.SetActualScreen.Execute(_shopUseCase);
+            _screenNavigatorViewModel.SetActualScreen.Execute(_shop);
         }
 
         private void BackToPreviousScreen(Unit _)

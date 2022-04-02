@@ -6,15 +6,15 @@ namespace UnityExercises.InterfaceAdapters.Screens.MainMenu
 {
     public class MainMenuController : DisposableBase
     {
-        private readonly IMainMenu _mainMenuUseCase;
+        private readonly IMainMenu _mainMenu;
         private readonly MainMenuViewModel _mainMenuViewModel;
         private readonly ScreenNavigatorViewModel _screenNavigatorViewModel;
 
-        public MainMenuController(IMainMenu mainMenuUseCase,
+        public MainMenuController(IMainMenu mainMenu,
                                 MainMenuViewModel mainMenuViewModel,
                                 ScreenNavigatorViewModel screenNavigatorViewModel)
         {
-            _mainMenuUseCase = mainMenuUseCase;
+            _mainMenu = mainMenu;
             _mainMenuViewModel = mainMenuViewModel;
             _screenNavigatorViewModel = screenNavigatorViewModel;
 
@@ -24,7 +24,7 @@ namespace UnityExercises.InterfaceAdapters.Screens.MainMenu
 
         private void SetAsActualScreen(Unit _)
         {
-            _screenNavigatorViewModel.SetActualScreen.Execute(_mainMenuUseCase);
+            _screenNavigatorViewModel.SetActualScreen.Execute(_mainMenu);
         }
 
         private void BackToPreviousScreen(Unit _)

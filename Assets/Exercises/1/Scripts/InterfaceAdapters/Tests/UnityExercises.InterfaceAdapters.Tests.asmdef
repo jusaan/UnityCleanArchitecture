@@ -1,5 +1,5 @@
 {
-    "name": "UnityExercises.Views.Tests",
+    "name": "UnityExercises.InterfaceAdapters.Tests",
     "rootNamespace": "",
     "references": [
         "GUID:27619889b8ba8c24980f49ee34dbb44a",
@@ -8,8 +8,9 @@
         "GUID:a2f2239355369ba4fb6909aeaa41def5",
         "GUID:560b04d1a97f54a4e82edc0cbbb69285",
         "GUID:b4f093b7fd03cef499df3fcce6ca1ab7",
-        "GUID:559197b466588d44fb8cb74ad89e07a4",
-        "GUID:d3f175d41a915364095d7dae59e6b741"
+        "GUID:d379d6c7a51df514d971555c333152e8",
+        "GUID:4cbf92fff7ba0ea46b5463f6d7dba79e",
+        "GUID:559197b466588d44fb8cb74ad89e07a4"
     ],
     "includePlatforms": [
         "Editor"
