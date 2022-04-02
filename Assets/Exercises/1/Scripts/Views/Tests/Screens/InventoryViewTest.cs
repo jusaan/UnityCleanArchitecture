@@ -16,17 +16,17 @@ namespace UnityExercises.Views.Tests.Screens
     {
         [Inject] private readonly InventoryView _inventoryView;
 
-        private InventoryViewModel _inventoryViewModel;
+        private Mock<InventoryViewModel> _inventoryViewModel;
         private Button _backButton;
 
         [SetUp]
         public void SetUp()
         {
-            _inventoryViewModel = new InventoryViewModel();
+            _inventoryViewModel = new Mock<InventoryViewModel>();
             Container.Bind<InventoryView>()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
-                .WithArguments(_inventoryViewModel);
+                .WithArguments(_inventoryViewModel.Object);
 
             Container.Inject(this);
 
@@ -40,7 +40,7 @@ namespace UnityExercises.Views.Tests.Screens
         public void WhenClickOnBackButton_ExecuteOnBackButtonPressedCommand()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _inventoryViewModel.OnBackButtonPressed.Subscribe(observer.Object);
+            _inventoryViewModel.Object.OnBackButtonPressed.Subscribe(observer.Object);
             _backButton.onClick.Invoke();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
@@ -52,7 +52,7 @@ namespace UnityExercises.Views.Tests.Screens
         {
             _inventoryView.gameObject.SetActive(!expectedValue);
             Assert.AreEqual(!expectedValue, _inventoryView.gameObject.activeSelf);
-            _inventoryViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
+            _inventoryViewModel.Object.IsVisible.SetValueAndForceNotify(expectedValue);
 
             Assert.AreEqual(expectedValue, _inventoryView.gameObject.activeSelf);
         }

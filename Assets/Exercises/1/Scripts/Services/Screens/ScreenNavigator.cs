@@ -17,7 +17,7 @@ namespace UnityExercises.Services.Screens
 
         private void Awake()
         {
-            _screenNavigatorViewModel.BackToPreviousScreen.Subscribe(OnBackToPreviousScreen).AddTo(this);
+            _screenNavigatorViewModel.BackToPreviousScreen.Subscribe(BackToPreviousScreen).AddTo(this);
             _screenNavigatorViewModel.SetActualScreen.Subscribe(SetActualScreen).AddTo(this);
         }
 
@@ -33,7 +33,7 @@ namespace UnityExercises.Services.Screens
             _actualScreen.SetActive(true);
         }
 
-        private void OnBackToPreviousScreen(Unit _)
+        private void BackToPreviousScreen(Unit _)
         {
             if (!_screensHistory.Any())
             {

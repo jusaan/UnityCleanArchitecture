@@ -14,15 +14,18 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.Inventory
     public class InventoryControllerTest : ZenjectUnitTestFixture
     {
         [Inject] private readonly InventoryController _inventoryController;
-        [Inject] private readonly InventoryViewModel _inventoryViewModel;
-        [Inject] private readonly ScreenNavigatorViewModel _screenNavigatorViewModel;
+
+        private Mock<InventoryViewModel> _inventoryViewModel;
+        private Mock<ScreenNavigatorViewModel> _screenNavigatorViewModel;
 
         [SetUp]
         public void SetUp()
         {
-            Container.Bind<IInventory>().FromMock().AsSingle();
-            Container.Bind<InventoryViewModel>().AsSingle();
-            Container.Bind<ScreenNavigatorViewModel>().AsSingle();
+            _inventoryViewModel = new Mock<InventoryViewModel>();
+            _screenNavigatorViewModel = new Mock<ScreenNavigatorViewModel>();
+            Container.Bind<InventoryViewModel>().FromInstance(_inventoryViewModel.Object);
+            Container.Bind<ScreenNavigatorViewModel>().FromInstance(_screenNavigatorViewModel.Object);
+            Container.Bind<IInventory>().FromMock();
             Container.Bind<InventoryController>().AsSingle();
             Container.Inject(this);
         }
@@ -31,8 +34,8 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.Inventory
         public void WhenReceiveCommandOnGoToButtonPressed_CallToSetActualScreen()
         {
             var observer = new Mock<IObserver<IActivable>>();
-            _screenNavigatorViewModel.SetActualScreen.Subscribe(observer.Object);
-            _inventoryViewModel.OnGoToButtonPressed.Execute();
+            _screenNavigatorViewModel.Object.SetActualScreen.Subscribe(observer.Object);
+            _inventoryViewModel.Object.OnGoToButtonPressed.Execute();
 
             observer.Verify(x => x.OnNext(It.IsAny<IActivable>()), Times.Once);
         }
@@ -41,8 +44,8 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.Inventory
         public void WhenReceiveCommandOnBackButtonPressed_CallToBackToPreviousScreen()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _screenNavigatorViewModel.BackToPreviousScreen.Subscribe(observer.Object);
-            _inventoryViewModel.OnBackButtonPressed.Execute();
+            _screenNavigatorViewModel.Object.BackToPreviousScreen.Subscribe(observer.Object);
+            _inventoryViewModel.Object.OnBackButtonPressed.Execute();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
         }

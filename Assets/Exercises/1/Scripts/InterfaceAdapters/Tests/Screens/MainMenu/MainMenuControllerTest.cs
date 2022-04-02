@@ -14,15 +14,18 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.MainMenu
     public class MainMenuControllerTest : ZenjectUnitTestFixture
     {
         [Inject] private readonly MainMenuController _mainMenuController;
-        [Inject] private readonly MainMenuViewModel _mainMenuViewModel;
-        [Inject] private readonly ScreenNavigatorViewModel _screenNavigatorViewModel;
+
+        private Mock<MainMenuViewModel> _mainMenuViewModel;
+        private Mock<ScreenNavigatorViewModel> _screenNavigatorViewModel;
 
         [SetUp]
         public void SetUp()
         {
-            Container.Bind<IMainMenu>().FromMock().AsSingle();
-            Container.Bind<MainMenuViewModel>().AsSingle();
-            Container.Bind<ScreenNavigatorViewModel>().AsSingle();
+            _mainMenuViewModel = new Mock<MainMenuViewModel>();
+            _screenNavigatorViewModel = new Mock<ScreenNavigatorViewModel>();   
+            Container.Bind<MainMenuViewModel>().FromInstance(_mainMenuViewModel.Object);
+            Container.Bind<ScreenNavigatorViewModel>().FromInstance(_screenNavigatorViewModel.Object);
+            Container.Bind<IMainMenu>().FromMock();
             Container.Bind<MainMenuController>().AsSingle();
             Container.Inject(this);
         }
@@ -31,8 +34,8 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.MainMenu
         public void WhenReceiveCommandOnGoToButtonPressed_CallToSetActualScreen()
         {
             var observer = new Mock<IObserver<IActivable>>();
-            _screenNavigatorViewModel.SetActualScreen.Subscribe(observer.Object);
-            _mainMenuViewModel.OnGoToButtonPressed.Execute();
+            _screenNavigatorViewModel.Object.SetActualScreen.Subscribe(observer.Object);
+            _mainMenuViewModel.Object.OnGoToButtonPressed.Execute();
 
             observer.Verify(x => x.OnNext(It.IsAny<IActivable>()), Times.Once);
         }
@@ -41,8 +44,8 @@ namespace UnityExercises.InterfaceAdapters.Tests.Screens.MainMenu
         public void WhenReceiveCommandOnBackButtonPressed_CallToBackToPreviousScreen()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _screenNavigatorViewModel.BackToPreviousScreen.Subscribe(observer.Object);
-            _mainMenuViewModel.OnBackButtonPressed.Execute();
+            _screenNavigatorViewModel.Object.BackToPreviousScreen.Subscribe(observer.Object);
+            _mainMenuViewModel.Object.OnBackButtonPressed.Execute();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
         }

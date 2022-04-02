@@ -17,20 +17,20 @@ namespace UnityExercises.Views.Tests.Screens
     {
         [Inject] private readonly ShopView _shopView;
 
-        private ShopViewModel _shopViewModel;
-        private InventoryViewModel _inventoryViewModel;
+        private Mock<ShopViewModel> _shopViewModel;
+        private Mock<InventoryViewModel> _inventoryViewModel;
         private Button _backButton;
         private Button _inventoryButton;
 
         [SetUp]
         public void SetUp()
         {
-            _shopViewModel = new ShopViewModel();
-            _inventoryViewModel = new InventoryViewModel();
+            _shopViewModel = new Mock<ShopViewModel>();
+            _inventoryViewModel = new Mock<InventoryViewModel>();
             Container.Bind<ShopView>()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
-                .WithArguments(_shopViewModel, _inventoryViewModel);
+                .WithArguments(_shopViewModel.Object, _inventoryViewModel.Object);
 
             Container.Inject(this);
 
@@ -46,7 +46,7 @@ namespace UnityExercises.Views.Tests.Screens
         public void WhenClickOnBackButton_ExecuteOnBackButtonPressedCommand()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _shopViewModel.OnBackButtonPressed.Subscribe(observer.Object);
+            _shopViewModel.Object.OnBackButtonPressed.Subscribe(observer.Object);
             _backButton.onClick.Invoke();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
@@ -56,7 +56,7 @@ namespace UnityExercises.Views.Tests.Screens
         public void WhenClickOnInventoryButton_ExecuteOnGoToButtonPressedCommand()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _inventoryViewModel.OnGoToButtonPressed.Subscribe(observer.Object);
+            _inventoryViewModel.Object.OnGoToButtonPressed.Subscribe(observer.Object);
             _inventoryButton.onClick.Invoke();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
@@ -68,7 +68,7 @@ namespace UnityExercises.Views.Tests.Screens
         {
             _shopView.gameObject.SetActive(!expectedValue);
             Assert.AreEqual(!expectedValue, _shopView.gameObject.activeSelf);
-            _shopViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
+            _shopViewModel.Object.IsVisible.SetValueAndForceNotify(expectedValue);
 
             Assert.AreEqual(expectedValue, _shopView.gameObject.activeSelf);
         }

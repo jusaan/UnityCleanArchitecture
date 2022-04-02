@@ -18,22 +18,22 @@ namespace UnityExercises.Views.Tests.Screens
     {
         [Inject] private readonly MainMenuView _mainMenuView;
 
-        private MainMenuViewModel _mainMenuViewModel;
-        private ShopViewModel _shopViewModel;
-        private InventoryViewModel _inventoryViewModel;
+        private Mock<MainMenuViewModel> _mainMenuViewModel;
+        private Mock<ShopViewModel> _shopViewModel;
+        private Mock<InventoryViewModel> _inventoryViewModel;
         private Button _shopButton;
         private Button _inventoryButton;
 
         [SetUp]
         public void SetUp()
         {
-            _mainMenuViewModel = new MainMenuViewModel();
-            _shopViewModel = new ShopViewModel();
-            _inventoryViewModel = new InventoryViewModel();
+            _mainMenuViewModel = new Mock<MainMenuViewModel>();
+            _shopViewModel = new Mock<ShopViewModel>();
+            _inventoryViewModel = new Mock<InventoryViewModel>();
             Container.Bind<MainMenuView>()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
-                .WithArguments(_mainMenuViewModel, _shopViewModel, _inventoryViewModel);
+                .WithArguments(_mainMenuViewModel.Object, _shopViewModel.Object, _inventoryViewModel.Object);
 
             Container.Inject(this);
 
@@ -50,7 +50,7 @@ namespace UnityExercises.Views.Tests.Screens
         public void WhenClickOnShopButton_ExecuteOnGoToButtonPressedCommand()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _shopViewModel.OnGoToButtonPressed.Subscribe(observer.Object);
+            _shopViewModel.Object.OnGoToButtonPressed.Subscribe(observer.Object);
             _shopButton.onClick.Invoke();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
@@ -60,7 +60,7 @@ namespace UnityExercises.Views.Tests.Screens
         public void WhenClickOnInventoryButton_ExecuteOnGoToButtonPressedCommand()
         {
             var observer = new Mock<IObserver<Unit>>();
-            _inventoryViewModel.OnGoToButtonPressed.Subscribe(observer.Object);
+            _inventoryViewModel.Object.OnGoToButtonPressed.Subscribe(observer.Object);
             _inventoryButton.onClick.Invoke();
 
             observer.Verify(x => x.OnNext(Unit.Default), Times.Once);
@@ -72,7 +72,7 @@ namespace UnityExercises.Views.Tests.Screens
         {
             _mainMenuView.gameObject.SetActive(!expectedValue);
             Assert.AreEqual(!expectedValue, _mainMenuView.gameObject.activeSelf);
-            _mainMenuViewModel.IsVisible.SetValueAndForceNotify(expectedValue);
+            _mainMenuViewModel.Object.IsVisible.SetValueAndForceNotify(expectedValue);
 
             Assert.AreEqual(expectedValue, _mainMenuView.gameObject.activeSelf);
         }
