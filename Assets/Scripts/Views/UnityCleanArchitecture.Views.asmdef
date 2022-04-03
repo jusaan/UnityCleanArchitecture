@@ -1,0 +1,18 @@
+{
+    "name": "UnityCleanArchitecture.Views",
+    "rootNamespace": "",
+    "references": [
+        "GUID:b4f093b7fd03cef499df3fcce6ca1ab7",
+        "GUID:559197b466588d44fb8cb74ad89e07a4",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
