@@ -50,6 +50,7 @@ jobs:
           targetPlatform: StandaloneWindows64
           versioning: Semantic
           buildName: ${{ github.event.repository.name }}
+          allowDirtyBuild: true
 
       # Output
       - uses: actions/upload-artifact@v2
