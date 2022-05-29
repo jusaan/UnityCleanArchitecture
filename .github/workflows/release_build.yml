@@ -1,0 +1,58 @@
+name: Release Build
+
+on:
+  workflow_dispatch: {}
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  testAndBuild:
+    name: Test and build for Windows
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout (without LFS)
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Git LFS
+      - name: Create LFS file list
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Restore LFS cache
+        uses: actions/cache@v2
+        id: lfs-cache
+        with:
+          path: .git/lfs
+          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+
+      - name: Git LFS Pull
+        run: |
+          git lfs pull
+          git add .
+          git reset --hard
+      # Cache
+      - uses: actions/cache@v2
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+            
+      # Test
+      - name: Run tests
+        uses: game-ci/unity-test-runner@v2
+
+      # Build
+      - name: Build project
+        uses: game-ci/unity-builder@v2
+        id: buildStep
+        with:
+          targetPlatform: StandaloneWindows64
+          versioning: Semantic
+          buildName: ${{ github.event.repository.name }}
+
+      # Output
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ github.event.repository.name }} v${{ steps.buildStep.outputs.buildVersion }}
+          path: build
